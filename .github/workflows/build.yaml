@@ -1,0 +1,27 @@
+name: Awoo-Installer
+
+on:
+  push:
+    branches: ["*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkita64:20251117
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - name: Build Awoo
+      run: |
+        git config --system --add safe.directory '*'
+        make -j$(nproc) all
+    - name: Upload Assets
+      uses: actions/upload-artifact@v4
+      with:
+        name: Awoo-Installer
+        path: Awoo-Installer.nro
