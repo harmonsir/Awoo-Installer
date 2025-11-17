@@ -39,7 +39,7 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source source/ui source/data source/install source/nx source/nx/ipc source/util
+SOURCES		:=	source source/ui source/data source/install source/nx source/nx/ipc source/util source/drive
 DATA		:=	data
 INCLUDES	:=	include include/ui include/data include/install include/nx include/nx/ipc include/util include/Plutonium/Plutonium/Include include/libusbhsfs/include
 APP_TITLE	:=	Awoo Installer
