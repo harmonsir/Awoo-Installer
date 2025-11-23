@@ -38,12 +38,11 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
-
     # 只有 push tag 时才跑 release（避免普通分支 push 误发版）
     if: github.ref_type == 'tag'
 
     permissions:
-      contents: write   # 创建 / 更新 Release 需要写权限
+      contents: write  # 创建 / 更新 Release 需要写权限
 
     steps:
       - name: Download build artifact
@@ -52,12 +51,18 @@ jobs:
           name: Awoo-Installer
           path: dist
 
+      - name: Create zip package (max compression)
+        run: |
+          cd dist
+          zip -9 Awoo-Installer.zip Awoo-Installer.nro
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/Awoo-Installer.nro
+          files: dist/Awoo-Installer.zip
           # 根据 tag 名自动判断是否是预发布（例如 v1.0.0-rc1 / v1.0.0-beta）
           prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-beta') }}
           draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
